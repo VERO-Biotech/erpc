@@ -28,7 +28,7 @@ if ($args[0] -eq "VS")
     Invoke-WebRequest -URI $URLBuildtools -OutFile $PathBuildtools
     Start-Process $PathBuildtools -ArgumentList "--quiet --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --wait"  -Wait
 }
-else
+elseif ($args[0] -eq "MINGW") 
 {
     # Install 7zip
     $URL7Zip = "https://gist.githubusercontent.com/dansmith65/7dd950f183af5f5deaf9650f2ad3226c/raw/8b8f6e96de7469cea73c9fe63a5da4d44a7c1ba7/Install-7zip.ps1"

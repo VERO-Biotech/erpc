@@ -72,7 +72,7 @@ void Thread::start(void *arg)
     LeaveCriticalSection(&m_critical_section);
 }
 
-bool Thread::operator==(const Thread &o)
+bool Thread::operator==(Thread &o)
 {
     return (m_thrdaddr == o.m_thrdaddr);
 }
