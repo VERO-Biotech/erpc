@@ -62,7 +62,7 @@ set(ERPC_C_SOURCES
 	${ERPC_C}/infra/erpc_pre_post_action.cpp
 
 	${ERPC_C}/port/erpc_port_stdlib.cpp
-	${ERPC_C}/port/erpc_threading_pthreads.cpp
+	$<IF:$<PLATFORM_ID:CYGWIN,Windows>,${ERPC_C}/port/erpc_threading_win32.cpp,${ERPC_C}/port/erpc_threading_pthreads.cpp>
 	${ERPC_C}/port/erpc_serial.cpp
 
 	${ERPC_C}/setup/erpc_arbitrated_client_setup.cpp
