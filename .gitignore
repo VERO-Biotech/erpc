@@ -114,3 +114,6 @@ vs_BuildTools*
 
 # Zephyr's repo link
 __repo__/
+
+# Bison zip
+erpcgen/win_flex_bison-2.5.25.zip
