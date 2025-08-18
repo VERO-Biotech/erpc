@@ -4,6 +4,25 @@
 # SPDX-License-Identifier: BSD-3-Clause
 #
 
+
+set(ZIP_URL "https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip")
+set(ZIP_PATH "${ERPC_ERPCGEN}/win_flex_bison-2.5.25.zip")
+set(EXTRACT_DIR "${ERPC_ERPCGEN}/VisualStudio_v14/")
+
+
+#Grab the Win Bison Files
+file(DOWNLOAD
+  ${ZIP_URL}
+  ${ZIP_PATH}
+  SHOW_PROGRESS
+  STATUS DOWNLOAD_STATUS
+)
+
+file(ARCHIVE_EXTRACT
+  INPUT ${ZIP_PATH}
+  DESTINATION ${EXTRACT_DIR}
+)
+
 # Find executables
 find_program(FLEX NAMES flex win_flex.exe HINTS ${ERPC_ERPCGEN}/VisualStudio_v14)
 find_program(BISON NAMES bison win_bison.exe HINTS ${ERPC_ERPCGEN}/VisualStudio_v14)
