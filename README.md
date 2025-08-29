@@ -1,4 +1,4 @@
-# MCUXpresso SDK : mcuxsdk-middleware-erpc
+# Vero Forked MCUXpresso SDK : mcuxsdk-middleware-erpc
 
 ## Overview
 This repository is for MCUXpresso SDK eRPC middleware delivery and it contains eRPC component officially provided in NXP MCUXpresso SDK. This repository is part of the MCUXpresso SDK overall delivery which is composed of several sub-repositories/projects. Navigate to the top/parent repository [mcuxsdk](https://github.com/nxp-mcuxpresso/mcuxsdk-manifests/) for the complete delivery of MCUXpresso SDK to be able to build and run eRPC examples that are based on mcux-sdk-middleware-erpc component.
