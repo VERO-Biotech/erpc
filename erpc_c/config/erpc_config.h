@@ -74,7 +74,7 @@
 //! supported by compiler. Uncomment comment bellow to use static allocation policy. In case of static implementation
 //! user need consider another values to set (ERPC_CODEC_COUNT, ERPC_MESSAGE_LOGGERS_COUNT,
 //! ERPC_CLIENTS_THREADS_AMOUNT).
-// #define ERPC_ALLOCATION_POLICY (ERPC_ALLOCATION_POLICY_STATIC)
+//#define ERPC_ALLOCATION_POLICY (ERPC_ALLOCATION_POLICY_STATIC)
 
 //! @def ERPC_CODEC_COUNT
 //!
@@ -98,25 +98,27 @@
 //! ERPC_ALLOCATION_POLICY_STATIC. Default value 1 (Most of current cases).
 // #define ERPC_CLIENTS_THREADS_AMOUNT (1U)
 
-//! @def ERPC_THREADS
-//!
-//! @brief Select threading model.
-//!
-//! Set to one of the @c ERPC_THREADS_x macros to specify the threading model used by eRPC.
-//!
-//! Leave commented out to attempt to auto-detect. Auto-detection works well for pthreads.
-//! FreeRTOS can be detected when building with compilers that support __has_include().
-//! Otherwise, the default is no threading.
-#ifdef _WIN32
-    #define ERPC_THREADS (ERPC_THREADS_WIN32)
-#endif
+#ifdef ERPC_BRIDGE
 
-//! @def ERPC_DEFAULT_BUFFER_SIZE
-//!
-//! Uncomment to change the size of buffers allocated by one of MessageBufferFactory.
-//! (@ref client_setup and @ref server_setup). The default size is set to 256.
-//! For RPMsg transport layer, ERPC_DEFAULT_BUFFER_SIZE must be 2^n - 16.
-//#define ERPC_DEFAULT_BUFFER_SIZE (256U)
+    //! @def ERPC_THREADS
+    //!
+    //! @brief Select threading model.
+    //!
+    //! Set to one of the @c ERPC_THREADS_x macros to specify the threading model used by eRPC.
+    //!
+    //! Leave commented out to attempt to auto-detect. Auto-detection works well for pthreads.
+    //! FreeRTOS can be detected when building with compilers that support __has_include().
+    //! Otherwise, the default is no threading.
+    #define ERPC_THREADS (ERPC_THREADS_NONE)
+
+    //! @def ERPC_DEFAULT_BUFFER_SIZE
+    //!
+    //! Uncomment to change the size of buffers allocated by one of MessageBufferFactory.
+    //! (@ref client_setup and @ref server_setup). The default size is set to 256.
+    //! For RPMsg transport layer, ERPC_DEFAULT_BUFFER_SIZE must be 2^n - 16.
+    #define ERPC_DEFAULT_BUFFER_SIZE (1024U)
+
+#endif // ERPC_BRIDGE
 
 //! @def ERPC_DEFAULT_BUFFERS_COUNT
 //!
