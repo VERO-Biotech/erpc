@@ -136,7 +136,7 @@ unsigned WINAPI Thread::threadEntryPointStub(void *arg)
 
 Mutex::Mutex(void)
 {
-    m_mutex = CreateMutex(NULL, FALSE, "");
+    m_mutex = CreateMutex(NULL, FALSE, L"");
 }
 
 Mutex::~Mutex(void)
@@ -161,7 +161,7 @@ bool Mutex::unlock(void)
 
 Semaphore::Semaphore(int count) : m_count(count), m_sem(), m_mutex()
 {
-    m_sem = CreateSemaphore(NULL, m_count, 1, "");
+    m_sem = CreateSemaphore(NULL, m_count, 1, L"");
 }
 
 Semaphore::~Semaphore(void)

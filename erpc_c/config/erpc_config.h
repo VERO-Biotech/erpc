@@ -111,6 +111,8 @@
     #define ERPC_THREADS (ERPC_THREADS_NONE)
 #elif defined(_WIN32)
     #define ERPC_THREADS (ERPC_THREADS_WIN32)
+#elif defined(__linux__)
+    #define ERPC_THREADS (ERPC_THREADS_PTHREADS)
 #endif // ERPC_BRIDGE
 
 //! @def ERPC_DEFAULT_BUFFER_SIZE
