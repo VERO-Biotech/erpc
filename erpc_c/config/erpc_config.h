@@ -97,23 +97,31 @@
 //! @brief Set amount of client threads objects used in case of ERPC_ALLOCATION_POLICY is set to
 //! ERPC_ALLOCATION_POLICY_STATIC. Default value 1 (Most of current cases).
 // #define ERPC_CLIENTS_THREADS_AMOUNT (1U)
-    
-//! @def ERPC_THREADS
-//!
-//! @brief Select threading model.
-//!
-//! Set to one of the @c ERPC_THREADS_x macros to specify the threading model used by eRPC.
-//!
-//! Leave commented out to attempt to auto-detect. Auto-detection works well for pthreads.
-//! FreeRTOS can be detected when building with compilers that support __has_include().
-//! Otherwise, the default is no threading.
-#ifdef ERPC_BRIDGE
-    #define ERPC_THREADS (ERPC_THREADS_NONE)
-#elif defined(_WIN32)
-    #define ERPC_THREADS (ERPC_THREADS_WIN32)
-#elif defined(__linux__)
-    #define ERPC_THREADS (ERPC_THREADS_PTHREADS)
-#endif // ERPC_BRIDGE
+
+    //! @def ERPC_THREADS
+    //!
+    //! @brief Select threading model.
+    //!
+    //! Set to one of the @c ERPC_THREADS_x macros to specify the threading model used by eRPC.
+    //!
+    //! Leave commented out to attempt to auto-detect. Auto-detection works well for pthreads.
+    //! FreeRTOS can be detected when building with compilers that support __has_include().
+    //! Otherwise, the default is no threading.
+    #ifndef ERPC_THREADS
+        #if defined(__MINGW32__) || defined(__MINGW64__)
+            // MinGW prefers pthreads even on Windows
+            #define ERPC_THREADS (ERPC_THREADS_PTHREADS)
+        #elif defined(_WIN32)
+            // MSVC or native Windows
+            #define ERPC_THREADS (ERPC_THREADS_WIN32)
+        #elif defined(__linux__)
+            #define ERPC_THREADS (ERPC_THREADS_PTHREADS)
+        #else
+            // Fallback: no threading
+            #define ERPC_THREADS (ERPC_THREADS_NONE)
+        #endif
+    #endif
+
 
 //! @def ERPC_DEFAULT_BUFFER_SIZE
 //!
