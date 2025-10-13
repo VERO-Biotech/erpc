@@ -98,8 +98,6 @@
 //! ERPC_ALLOCATION_POLICY_STATIC. Default value 1 (Most of current cases).
 // #define ERPC_CLIENTS_THREADS_AMOUNT (1U)
 
-#ifdef ERPC_BRIDGE
-
     //! @def ERPC_THREADS
     //!
     //! @brief Select threading model.
@@ -109,16 +107,28 @@
     //! Leave commented out to attempt to auto-detect. Auto-detection works well for pthreads.
     //! FreeRTOS can be detected when building with compilers that support __has_include().
     //! Otherwise, the default is no threading.
-    #define ERPC_THREADS (ERPC_THREADS_NONE)
+    #ifndef ERPC_THREADS
+        #if defined(__MINGW32__) || defined(__MINGW64__)
+            // MinGW prefers pthreads even on Windows
+            #define ERPC_THREADS (ERPC_THREADS_PTHREADS)
+        #elif defined(_WIN32)
+            // MSVC or native Windows
+            #define ERPC_THREADS (ERPC_THREADS_WIN32)
+        #elif defined(__linux__)
+            #define ERPC_THREADS (ERPC_THREADS_PTHREADS)
+        #else
+            // Fallback: no threading
+            #define ERPC_THREADS (ERPC_THREADS_NONE)
+        #endif
+    #endif
 
-    //! @def ERPC_DEFAULT_BUFFER_SIZE
-    //!
-    //! Uncomment to change the size of buffers allocated by one of MessageBufferFactory.
-    //! (@ref client_setup and @ref server_setup). The default size is set to 256.
-    //! For RPMsg transport layer, ERPC_DEFAULT_BUFFER_SIZE must be 2^n - 16.
-    #define ERPC_DEFAULT_BUFFER_SIZE (1024U)
 
-#endif // ERPC_BRIDGE
+//! @def ERPC_DEFAULT_BUFFER_SIZE
+//!
+//! Uncomment to change the size of buffers allocated by one of MessageBufferFactory.
+//! (@ref client_setup and @ref server_setup). The default size is set to 256.
+//! For RPMsg transport layer, ERPC_DEFAULT_BUFFER_SIZE must be 2^n - 16.
+#define ERPC_DEFAULT_BUFFER_SIZE (1024U)
 
 //! @def ERPC_DEFAULT_BUFFERS_COUNT
 //!
