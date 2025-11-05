@@ -3,6 +3,39 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 #
+# ------------------------------------------------------------------------------
+# Resolve threading backend source for eRPC (configure-time safe)
+#
+# This logic selects the correct threading implementation source file based on:
+#   - Explicit override via ERPC_THREADING_BACKEND (preferred)
+#   - Firmware flag THREADX_ENABLED
+#   - Host platform detection (Windows, Cygwin, MinGW, Unix)
+#
+# Main App (ErpcBridge):
+#   - Typically defines ERPC_THREADING_BACKEND explicitly based on platform/compiler
+#   - This override is respected here to ensure consistent backend selection
+#
+# Firmware builds:
+#   - Should define THREADX_ENABLED and/or ERPC_THREADING_BACKEND in their root CMakeLists.txt
+#   - This avoids relying on platform detection, which may be undefined or misleading
+#
+# erpc_config.h fallback:
+#   - If ERPC_THREADS macro is not defined, it uses platform macros to select a backend
+#   - This CMake logic ensures ERPC_THREADS is defined consistently via ERPC_THREADING_MACRO
+#   - Prevents mismatches between source file and macro definition
+# ------------------------------------------------------------------------------
+
+if(NOT DEFINED ERPC_THREADING_BACKEND)
+    if(DEFINED THREADX_ENABLED AND THREADX_ENABLED)
+        set(ERPC_THREADING_BACKEND ${ERPC_C}/port/erpc_threading_threadx.cpp)
+    elseif(MINGW)
+        set(ERPC_THREADING_BACKEND ${ERPC_C}/port/erpc_threading_pthreads.cpp)
+    elseif(WIN32 OR CYGWIN)
+        set(ERPC_THREADING_BACKEND ${ERPC_C}/port/erpc_threading_win32.cpp)
+    else()
+        set(ERPC_THREADING_BACKEND ${ERPC_C}/port/erpc_threading_pthreads.cpp)
+    endif()
+endif()
 
 set(ERPC_C_INCLUDES
     ${ERPC_C}/infra
