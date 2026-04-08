@@ -5,23 +5,25 @@
 #
 
 
-set(ZIP_URL "https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip")
-set(ZIP_PATH "${ERPC_ERPCGEN}/win_flex_bison-2.5.25.zip")
 set(EXTRACT_DIR "${ERPC_ERPCGEN}/VisualStudio_v14/")
 
+if(WIN32)
+    set(ZIP_URL "https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip")
+    set(ZIP_PATH "${ERPC_ERPCGEN}/win_flex_bison-2.5.25.zip")
 
-#Grab the Win Bison Files
-file(DOWNLOAD
-  ${ZIP_URL}
-  ${ZIP_PATH}
-  SHOW_PROGRESS
-  STATUS DOWNLOAD_STATUS
-)
+    #Grab the Win Bison Files
+    file(DOWNLOAD
+      ${ZIP_URL}
+      ${ZIP_PATH}
+      SHOW_PROGRESS
+      STATUS DOWNLOAD_STATUS
+    )
 
-file(ARCHIVE_EXTRACT
-  INPUT ${ZIP_PATH}
-  DESTINATION ${EXTRACT_DIR}
-)
+    file(ARCHIVE_EXTRACT
+      INPUT ${ZIP_PATH}
+      DESTINATION ${EXTRACT_DIR}
+    )
+endif()
 
 # Find executables
 find_program(FLEX NAMES flex win_flex.exe HINTS ${ERPC_ERPCGEN}/VisualStudio_v14)
